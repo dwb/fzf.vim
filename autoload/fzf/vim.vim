@@ -334,7 +334,7 @@ function! fzf#vim#gitfiles(...)
     return
   endif
   call s:fzf({
-  \ 'source':  'git ls-tree --name-only -r HEAD',
+  \ 'source':  'git ls-files --cached --others --exclude-standard',
   \ 'dir':     root,
   \ 'sink*':   s:function('s:common_sink'),
   \ 'options': '--prompt "GitFiles> " -m'.s:expect(),
