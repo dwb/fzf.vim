@@ -49,14 +49,14 @@ Commands
 | Command          | List                                                                      |
 | ---              | ---                                                                       |
 | `Files [PATH]`   | Files (similar to `:FZF`)                                                 |
-| `GitFiles`       | Git files
+| `GitFiles`       | Git files                                                                 |
 | `Buffers`        | Open buffers                                                              |
 | `Colors`         | Color schemes                                                             |
-| `Ag [PATTERN]`   | [ag][ag] search result (`CTRL-A` to select all, `CTRL-D` to deselect all) |
+| `Ag [PATTERN]`   | [ag][ag] search result (`ALT-A` to select all, `ALT-D` to deselect all)   |
 | `Lines`          | Lines in loaded buffers                                                   |
 | `BLines`         | Lines in the current buffer                                               |
-| `Tags`           | Tags in the project (`ctags -R`)                                          |
-| `BTags`          | Tags in the current buffer                                                |
+| `Tags [QUERY]`   | Tags in the project (`ctags -R`)                                          |
+| `BTags [QUERY]`  | Tags in the current buffer                                                |
 | `Marks`          | Marks                                                                     |
 | `Windows`        | Windows                                                                   |
 | `Locate PATTERN` | `locate` command output                                                   |
@@ -96,6 +96,9 @@ let g:fzf_action = {
 " - down / up / left / right
 " - window (nvim only)
 let g:fzf_layout = { 'down': '~40%' }
+
+" For Commits and BCommits to customize the options used by 'git log':
+let g:fzf_commits_log_options = '--graph --color=always --format="%C(auto)%h%d %s %C(black)%C(bold)%cr"'
 
 " Advanced customization using autoload functions
 autocmd VimEnter * command! Colors
