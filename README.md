@@ -41,7 +41,9 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 ```
 
-Make sure to use the latest version of fzf and Vim 7.4 or above.
+- `dir` option is not mandatory
+- Use `./install --bin` instead if you don't need fzf outside of Vim
+- Make sure to use Vim 7.4 or above
 
 Commands
 --------
@@ -49,7 +51,8 @@ Commands
 | Command          | List                                                                      |
 | ---              | ---                                                                       |
 | `Files [PATH]`   | Files (similar to `:FZF`)                                                 |
-| `GitFiles`       | Git files                                                                 |
+| `GitFiles`       | Git files (git ls-files)                                                  |
+| `GitFiles?`      | Git files (git status)                                                    |
 | `Buffers`        | Open buffers                                                              |
 | `Colors`         | Color schemes                                                             |
 | `Ag [PATTERN]`   | [ag][ag] search result (`ALT-A` to select all, `ALT-D` to deselect all)   |
@@ -69,6 +72,7 @@ Commands
 | `Commands`       | Commands                                                                  |
 | `Maps`           | Normal mode mappings                                                      |
 | `Helptags`       | Help tags <sup id="a1">[1](#helptags)</sup>                               |
+| `Filetypes`      | File types
 
 - Most commands support `CTRL-T` / `CTRL-X` / `CTRL-V` key
   bindings to open in a new tab, a new split, or in a new vertical split
@@ -85,6 +89,8 @@ pathogen#helptags()`. [↩](#a1))
 
 ### Customization
 
+#### Global options
+
 ```vim
 " This is the default extra key bindings
 let g:fzf_action = {
@@ -97,10 +103,37 @@ let g:fzf_action = {
 " - window (nvim only)
 let g:fzf_layout = { 'down': '~40%' }
 
-" For Commits and BCommits to customize the options used by 'git log':
-let g:fzf_commits_log_options = '--graph --color=always --format="%C(auto)%h%d %s %C(black)%C(bold)%cr"'
+" Customize fzf colors to match your color scheme
+let g:fzf_colors =
+\ { 'fg':      ['fg', 'Normal'],
+  \ 'bg':      ['bg', 'Normal'],
+  \ 'hl':      ['fg', 'Comment'],
+  \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+  \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+  \ 'hl+':     ['fg', 'Statement'],
+  \ 'info':    ['fg', 'PreProc'],
+  \ 'prompt':  ['fg', 'Conditional'],
+  \ 'pointer': ['fg', 'Exception'],
+  \ 'marker':  ['fg', 'Keyword'],
+  \ 'spinner': ['fg', 'Label'],
+  \ 'header':  ['fg', 'Comment'] }
+```
 
-" Advanced customization using autoload functions
+#### Command-local options
+
+```vim
+" [Buffers] Jump to the existing window if possible
+let g:fzf_buffers_jump = 1
+
+" [[B]Commits] to customize the options used by 'git log':
+let g:fzf_commits_log_options = '--graph --color=always --format="%C(auto)%h%d %s %C(black)%C(bold)%cr"'
+```
+
+#### Advanced customization using autoload functions
+
+You can use autoload functions to define your own commands.
+
+```vim
 autocmd VimEnter * command! Colors
   \ call fzf#vim#colors({'left': '15%', 'options': '--reverse --margin 30%,0'})
 ```
